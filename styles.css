@@ -1,0 +1,304 @@
+/* simple & beginner-friendly */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    /* only #wrap scrolls */
+    background: #0f0f10;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+/* title */
+#mainTitle {
+    position: fixed;
+    top: 12px;
+    left: 16px;
+    z-index: 5;
+    margin: 0;
+    padding: 6px 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    font-size: 28px;
+    color: #fff;
+    background: rgba(0, 0, 0, .35);
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 10px;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .8);
+    pointer-events: none;
+}
+
+#bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+#bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    opacity: 0;
+    transition: .2s;
+}
+
+#bg.show::after {
+    opacity: 1;
+}
+
+#wrap {
+    position: relative;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    will-change: scroll-position;
+}
+
+#wrap.drag {
+    cursor: grabbing;
+}
+
+#canvas {
+    position: relative;
+    height: 100%;
+}
+
+/* timeline line (left/width set by JS) */
+#line {
+    position: absolute;
+    top: 50%;
+    height: 4px;
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 6px rgba(0, 0, 0, .9);
+}
+
+/* dots */
+.dot {
+    position: absolute;
+    top: calc(50% - 10px);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 7px rgba(0, 0, 0, 1);
+    cursor: pointer;
+}
+
+.dot:hover::after {
+    content: attr(data-name);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1b1e26;
+    color: #dcdff9;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #2b2f3a;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* island */
+#info {
+    position: fixed;
+    left: 50%;
+    top: calc(50vh + 44px);
+    transform: translateX(-50%);
+    width: min(1100px, 92vw);
+    z-index: 3;
+    display: none;
+    background: #151922;
+    border: 1px solid #2b2f3a;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .55);
+}
+
+#info.show {
+    display: block;
+}
+
+#title {
+    margin: 0 36px 10px 4px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .2px;
+}
+
+#closeBtn {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    border: 1px solid #404656;
+    background: #262b36;
+    color: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#closeBtn:hover {
+    background: #313748;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1.2fr 1.8fr 1fr 1fr;
+    gap: 10px;
+}
+
+.card {
+    background: #0f131b;
+    border: 1px solid #2b2f3a;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.card h3 {
+    margin: 0 0 6px;
+    font-size: 12px;
+    color: #9fb5ff;
+    text-transform: uppercase;
+}
+
+.card p {
+    margin: 0;
+    color: #e8ebff;
+    line-height: 1.5;
+}
+
+#hint {
+    position: fixed;
+    left: 8px;
+    bottom: 6px;
+    z-index: 2;
+    font-size: 12px;
+    color: #9fb5ff;
+    opacity: .85;
+}
+
+/* equal-length ticks (one style for all) */
+.tick {
+    position: absolute;
+    width: 3px;
+    height: 100px;
+    /* gleichlang */
+    top: calc(50% - 100px);
+    /* oberhalb der Linie */
+    background: #fff;
+    transform: translateX(-1px);
+    opacity: .9;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.tick.down {
+    /* hängt nach unten, gleich lang */
+    top: 50%;
+    height: 100px;
+}
+
+.tickLabel {
+    position: absolute;
+    top: calc(50% - 150px);
+    /* Label über der Linie */
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .9);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+    padding: 4px 10px;
+}
+
+.tickLabel.down {
+    top: calc(50% + 120px);
+    /* Label unter der Linie */
+    transform: translateX(-50%);
+}
+
+/* small perf bump for transforms */
+.tick,
+.tickLabel,
+.dot {
+    will-change: transform;
+}
+
+/* --- Search --- */
+#searchWrap{
+  position: fixed;
+  top: 150px;                 /* 150px distance from top */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+#searchInput{
+  width: min(560px, 70vw);
+  padding: 10px 14px;
+  font-size: 16px;
+  color: #e8ebff;
+  background: #141821;
+  border: 1px solid #2b2f3a;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+
+#searchInput::placeholder{ color:#9fb5ff; opacity:.8; }
+
+#searchList{
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  width: min(560px, 70vw);
+  max-height: 280px;
+  overflow-y: auto;
+  background: #0f131b;
+  border: 1px solid #2b2f3a;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.45);
+  display: none;              /* shown when there are results */
+}
+
+#searchList.show{ display:block; }
+
+#searchList li{
+  padding: 8px 12px;
+  cursor: pointer;
+  color:#e8ebff;
+  font-size: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+#searchList li:hover{ background:#151b25; }
+#searchList .when{ color:#9fb5ff; font-size:12px; }
+#searchList .title{ flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* small screens: keep centered but tighter */
+@media (max-width:700px){
+  #searchInput, #searchList{ width: 90vw; }
+}

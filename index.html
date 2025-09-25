@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Timeline</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <div id="bg"></div>
+    <h1 id="mainTitle">HISTORIA</h1>
+    
+    <!-- Search -->
+    <div id="searchWrap">
+        <input id="searchInput" type="text" placeholder="Search events… (e.g., Rome, 1453, Confucius)" />
+        <ul id="searchList"></ul>
+    </div>
+
+    <div id="wrap">
+        <div id="canvas">
+            <div id="line"></div>
+            <!-- dots and year ticks are added by script.js -->
+        </div>
+    </div>
+
+    <div id="info">
+        <button id="closeBtn">x</button>
+        <h2 id="title">-</h2>
+        <div class="row">
+            <div class="card">
+                <h3>When</h3>
+                <p id="when">-</p>
+            </div>
+            <div class="card">
+                <h3>What happened</h3>
+                <p id="what">-</p>
+            </div>
+            <div class="card">
+                <h3>Who / Where</h3>
+                <p id="who">-</p>
+            </div>
+            <div class="card">
+                <h3>Why it matters</h3>
+                <p id="why">-</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="hint">Mouse wheel or drag to move • Press ESC to clear background</div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
