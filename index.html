@@ -1,55 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <title>Timeline</title>
-    <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8" />
+  <title>Timeline</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-    <div id="bg"></div>
-    <h1 id="mainTitle">HISTORIA</h1>
-    
-    <!-- Search -->
-    <div id="searchWrap">
-        <input id="searchInput" type="text" placeholder="Search events… (e.g., Rome, 1453, Confucius)" />
-        <ul id="searchList"></ul>
+  <!-- Background image layer -->
+  <div id="bg"></div>
+
+  <!-- Backdrop for the bottom sheet (click to close) -->
+  <div id="sheetBackdrop"></div>
+
+  <!-- Title -->
+  <h1 id="mainTitle">HISTORIA</h1>
+
+  <!-- Search -->
+  <div id="searchWrap">
+    <input id="searchInput" type="text" placeholder="Search events… (e.g., Rome, 1453, Confucius)" />
+    <ul id="searchList"></ul>
+  </div>
+
+  <!-- Horizontal timeline viewport -->
+  <div id="wrap">
+    <div id="canvas">
+      <div id="line"></div>
+      <!-- dots and year ticks are added by script.js -->
+    </div>
+  </div>
+
+  <!-- Bottom Sheet -->
+  <div id="info" role="dialog" aria-modal="false" aria-labelledby="title">
+    <div id="sheetHandle"></div>
+    <button id="closeBtn" aria-label="Close">x</button>
+    <h2 id="title" tabindex="-1">-</h2>
+
+    <div class="row">
+      <div class="card">
+        <h3>When</h3>
+        <p id="when">-</p>
+      </div>
+      <div class="card">
+        <h3>What happened</h3>
+        <p id="what">-</p>
+      </div>
+      <div class="card">
+        <h3>Who / Where</h3>
+        <p id="who">-</p>
+      </div>
+      <div class="card">
+        <h3>Why it matters</h3>
+        <p id="why">-</p>
+      </div>
     </div>
 
-    <div id="wrap">
-        <div id="canvas">
-            <div id="line"></div>
-            <!-- dots and year ticks are added by script.js -->
-        </div>
+    <hr class="divider" />
+
+    <div class="research">
+      <h3>Research this event</h3>
+      <p class="muted">Quick links to read more:</p>
+      <div id="researchLinks" class="links"></div>
     </div>
 
-    <div id="info">
-        <button id="closeBtn">x</button>
-        <h2 id="title">-</h2>
-        <div class="row">
-            <div class="card">
-                <h3>When</h3>
-                <p id="when">-</p>
-            </div>
-            <div class="card">
-                <h3>What happened</h3>
-                <p id="what">-</p>
-            </div>
-            <div class="card">
-                <h3>Who / Where</h3>
-                <p id="who">-</p>
-            </div>
-            <div class="card">
-                <h3>Why it matters</h3>
-                <p id="why">-</p>
-            </div>
-        </div>
+    <hr class="divider" />
+
+    <div class="summary">
+      <h3>Overview</h3>
+      <p id="summaryText"></p>
     </div>
 
-    <div id="hint">Mouse wheel or drag to move • Press ESC to clear background</div>
+    <!-- Sticky scroll hint at the bottom -->
+    <div class="scrollHint">
+      <span>Scroll für mehr</span>
+      <span class="chev">▾</span>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <div id="hint">Mouse wheel or drag to move • Press ESC to clear background</div>
+
+  <script src="script.js"></script>
 </body>
-
 </html>
